@@ -103,7 +103,7 @@
     </div>
 
     <script>
-        // --- JavaScript for Scroll Zoom Effect ---
+        // --- JavaScript for Scroll and Touch Zoom Effect ---
 
         // 1. Get the elements from the document
         const zoomText = document.getElementById('zoom-text');
@@ -112,22 +112,16 @@
         // 2. Set initial scale and zoom properties
         let currentScale = 1.0; 
         const minScale = 0.5;
-        const maxScale = 250.0; // Max zoom level
+        const maxScale = 250.0;
         const scaleStep = 0.5;
 
         // --- The key moment for the reveal ---
-        // This is the zoom scale at which the 'g' should fill the screen
-        const textRevealThreshold = 150.0; // Reveal point
+        const textRevealThreshold = 150.0;
 
-        // 3. Listen for the 'wheel' event (mouse scroll)
-        window.addEventListener('wheel', (event) => {
-            event.preventDefault();
-
-            if (event.deltaY > 0) {
-                currentScale += scaleStep;
-            } else {
-                currentScale -= scaleStep;
-            }
+        // --- Unified function to update the scale ---
+        function updateScale(direction) {
+            // Update scale based on direction (1 for zoom in, -1 for zoom out)
+            currentScale += direction * scaleStep;
 
             // Apply limits to the scale
             currentScale = Math.max(minScale, Math.min(maxScale, currentScale));
@@ -135,14 +129,39 @@
             // Apply the new scale to the main text element
             zoomText.style.transform = `scale(${currentScale})`;
             
-            // --- Logic for revealing the hidden text ---
-            // When the zoom level hits the threshold, fade in the text
+            // Logic for revealing the hidden text
             if (currentScale >= textRevealThreshold) {
                 realmText.classList.add('visible');
             } else {
                 realmText.classList.remove('visible');
             }
+        }
+
+        // --- Listener for Desktop Mouse Wheel ---
+        window.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            const direction = event.deltaY > 0 ? 1 : -1;
+            updateScale(direction);
+        }, { passive: false });
+
+        // --- Listeners for Mobile Touch Events ---
+        let touchStartY = 0;
+
+        window.addEventListener('touchstart', (event) => {
+            // Record where the touch started
+            touchStartY = event.touches[0].clientY;
+        }, { passive: false });
+
+        window.addEventListener('touchmove', (event) => {
+            event.preventDefault(); // Prevent page from scrolling
+            const currentTouchY = event.touches[0].clientY;
             
+            // Determine swipe direction
+            if (Math.abs(touchStartY - currentTouchY) > 5) { // 5px threshold to prevent accidental zoom
+                const direction = touchStartY > currentTouchY ? 1 : -1; // Swipe up = zoom in
+                updateScale(direction);
+                touchStartY = currentTouchY; // Reset start position for continuous swiping
+            }
         }, { passive: false });
     </script>
 
