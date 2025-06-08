@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coming Soon</title>
     <style>
-        /* --- Font Loading Fix (Direct CDN Link) --- */
-        /* This is the most direct method and should resolve any loading issues. */
+        /* --- Font Loading Fix (Local Repository File) --- */
+        /* This rule loads the font directly from your GitHub repository. */
+        /* This is the most reliable method. */
         @font-face {
             font-family: 'Basement Grotesque';
             font-style: normal;
             font-weight: 900;
             font-display: swap;
-            src: url('https://db.onlinewebfonts.com/t/b653492166b5763b0593b45417833a69.woff2') format('woff2');
+            /* This path now uses the EXACT filename you provided. */
+            src: url('BasementGrotesque-Black_v1.202.woff2') format('woff2');
         }
 
         /* --- Basic Setup --- */
