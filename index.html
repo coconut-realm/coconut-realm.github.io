@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <link href="https://fonts.cdnfonts.com/css/basement-grotesque" rel="stylesheet">
+    <style>
+        /* --- Basic Setup --- */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #000000; /* Pitch black background */
+            overflow: hidden; /* Prevents scrollbars from appearing */
+        }
+
+        /* --- Centering Container --- */
+        /* It holds both text layers */
+        .container {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- 'coming soon' Text Styling --- */
+        .coming-soon {
+            color: #A4FF93; /* The specified green color */
+            font-family: 'Basement Grotesque', sans-serif;
+            font-size: 5vw; /* Responsive base font size */
+            text-transform: lowercase;
+            white-space: nowrap;
+            /* Positioned on a lower layer */
+            position: relative;
+            z-index: 1;
+            /* Smooth transitions for zoom */
+            transition: transform 0.2s ease-out;
+        }
+
+        /* --- 'coconut realm' Text Styling --- */
+        /* This is the text that appears on top at the end */
+        .realm-text {
+            /* Perfectly centered on the screen */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            
+            /* Sits on a higher layer so it can appear on top */
+            z-index: 2;
+
+            font-family: 'Basement Grotesque', sans-serif;
+            color: #000000; /* Black color to contrast with the green 'background' */
+            font-size: 4vw;
+            text-transform: lowercase;
+            white-space: nowrap;
+            
+            /* Hidden by default, with a smooth fade-in transition */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        /* --- Class to make the hidden text visible --- */
+        .realm-text.visible {
+            opacity: 1;
+        }
+        
+        /* Media query for larger screens to set a more stable font size */
+        @media (min-width: 768px) {
+            .coming-soon {
+                font-size: 3rem; 
+            }
+            .realm-text {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- The main text that zooms -->
+        <div class="coming-soon" id="zoom-text">
+            coming soon
+        </div>
+        
+        <!-- The hidden text that appears at the reveal moment -->
+        <div class="realm-text" id="realm-text">
+            coconut realm
+        </div>
+    </div>
+
+    <script>
+        // --- JavaScript for Scroll Zoom Effect ---
+
+        // 1. Get the elements from the document
+        const zoomText = document.getElementById('zoom-text');
+        const realmText = document.getElementById('realm-text');
+
+        // 2. Set initial scale and zoom properties
+        let currentScale = 1.0; 
+        const minScale = 0.5;
+        const maxScale = 350.0; // Max zoom level - INCREASED
+        const scaleStep = 2.5;
+
+        // --- The key moment for the reveal ---
+        // This is the zoom scale at which the 'g' should fill the screen
+        const textRevealThreshold = 250.0; // Reveal point - INCREASED
+
+        // 3. Listen for the 'wheel' event (mouse scroll)
+        window.addEventListener('wheel', (event) => {
+            event.preventDefault();
+
+            if (event.deltaY > 0) {
+                currentScale += scaleStep;
+            } else {
+                currentScale -= scaleStep;
+            }
+
+            // Apply limits to the scale
+            currentScale = Math.max(minScale, Math.min(maxScale, currentScale));
+
+            // Apply the new scale to the main text element
+            zoomText.style.transform = `scale(${currentScale})`;
+            
+            // --- Logic for revealing the hidden text ---
+            // When the zoom level hits the threshold, fade in the text
+            if (currentScale >= textRevealThreshold) {
+                realmText.classList.add('visible');
+            } else {
+                realmText.classList.remove('visible');
+            }
+            
+        }, { passive: false });
+    </script>
+
+</body>
+</html>
