@@ -5,17 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coming Soon</title>
     <style>
-        /* --- Font Loading Fix for Mobile --- */
-        /* This is a more robust rule that provides multiple font formats */
-        /* and uses font-display: swap for better loading performance. */
-        @font-face {
-            font-family: 'Basement Grotesque';
-            font-style: normal;
-            font-weight: 900;
-            font-display: swap; /* Tells the browser to show a fallback font while this one loads */
-            src: url('https://fonts.cdnfonts.com/s/73431/BasementGrotesque-Black_v1.2.woff2') format('woff2'),
-                 url('https://fonts.cdnfonts.com/s/73431/BasementGrotesque-Black_v1.2.woff') format('woff');
-        }
+        /* --- Font Loading Fix for Mobile (Using Google Fonts) --- */
+        /* This is the most reliable method. It imports the font directly */
+        /* from Google's highly optimized and compatible font servers. */
+        @import url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@900&display=swap');
 
         /* --- Basic Setup --- */
         body, html {
@@ -40,7 +33,9 @@
         /* --- 'coming soon' Text Styling --- */
         .coming-soon {
             color: #A4FF93; /* The specified green color */
-            font-family: 'Basement Grotesque', sans-serif;
+            /* Using the new, reliable font from Google */
+            font-family: 'Darker Grotesque', sans-serif;
+            font-weight: 900;
             font-size: 5vw; /* Responsive base font size */
             text-transform: lowercase;
             white-space: nowrap;
@@ -63,7 +58,9 @@
             /* Sits on a higher layer so it can appear on top */
             z-index: 2;
 
-            font-family: 'Basement Grotesque', sans-serif;
+            /* Using the new, reliable font from Google */
+            font-family: 'Darker Grotesque', sans-serif;
+            font-weight: 900;
             color: #000000; /* Black color to contrast with the green 'background' */
             font-size: 4vw;
             text-transform: lowercase;
@@ -115,7 +112,7 @@
         let currentScale = 1.0; 
         const minScale = 0.5;
         const maxScale = 250.0;
-        const scaleStep = 10.5;
+        const scaleStep = 0.5;
 
         // --- The key moment for the reveal ---
         const textRevealThreshold = 150.0;
