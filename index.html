@@ -6,13 +6,15 @@
     <title>Coming Soon</title>
     <style>
         /* --- Font Loading Fix for Mobile --- */
-        /* This rule directly tells the browser how to load the custom font. */
-        /* It's more reliable than linking to an external CSS file. */
+        /* This is a more robust rule that provides multiple font formats */
+        /* and uses font-display: swap for better loading performance. */
         @font-face {
             font-family: 'Basement Grotesque';
             font-style: normal;
             font-weight: 900;
-            src: url('https://fonts.cdnfonts.com/s/73431/BasementGrotesque-Black_v1.2.woff') format('woff');
+            font-display: swap; /* Tells the browser to show a fallback font while this one loads */
+            src: url('https://fonts.cdnfonts.com/s/73431/BasementGrotesque-Black_v1.2.woff2') format('woff2'),
+                 url('https://fonts.cdnfonts.com/s/73431/BasementGrotesque-Black_v1.2.woff') format('woff');
         }
 
         /* --- Basic Setup --- */
