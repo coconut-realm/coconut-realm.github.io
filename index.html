@@ -4,8 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coming Soon</title>
-    <link href="https://fonts.cdnfonts.com/css/basement-grotesque" rel="stylesheet">
     <style>
+        /* --- Font Loading Fix for Mobile --- */
+        /* This rule directly tells the browser how to load the custom font. */
+        /* It's more reliable than linking to an external CSS file. */
+        @font-face {
+            font-family: 'Basement Grotesque';
+            font-style: normal;
+            font-weight: 900;
+            src: url('https://fonts.cdnfonts.com/s/73431/BasementGrotesque-Black_v1.2.woff') format('woff');
+        }
+
         /* --- Basic Setup --- */
         body, html {
             height: 100%;
@@ -103,12 +112,12 @@
         // 2. Set initial scale and zoom properties
         let currentScale = 1.0; 
         const minScale = 0.5;
-        const maxScale = 350.0; // Max zoom level - INCREASED
-        const scaleStep = 2.5;
+        const maxScale = 250.0; // Max zoom level
+        const scaleStep = 0.5;
 
         // --- The key moment for the reveal ---
         // This is the zoom scale at which the 'g' should fill the screen
-        const textRevealThreshold = 250.0; // Reveal point - INCREASED
+        const textRevealThreshold = 150.0; // Reveal point
 
         // 3. Listen for the 'wheel' event (mouse scroll)
         window.addEventListener('wheel', (event) => {
